@@ -14,7 +14,18 @@ export default new Router({
             meta: {
                 menuShow: true,
                 menuName: '首页'
-            }
+            },
+            children: [
+                {
+                    path: '/index',
+                    name: 'index',
+                    component: () => import('@/views/index'),
+                    meta: {
+                        menuShow: true,
+                        menuName: '首页1'
+                    }
+                }
+            ]
         },
         {
             path: '/about',
