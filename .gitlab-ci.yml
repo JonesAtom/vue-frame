@@ -1,0 +1,46 @@
+# 开发环境部署脚本
+
+
+stages:
+  - install
+  - build
+  - deploy
+
+# 缓存
+cache:
+  key: ${CI_BUILD_REF_NAME}
+  paths:
+    - node_modules/
+    - dist/
+
+# 安装依赖
+install:
+  stage: install
+  only:
+    - dev
+  tags:
+    - runner-vue
+  script:
+    - cnpm install
+
+# 编译
+build:
+  stage: build
+  only:
+   - dev
+  tags:
+    - runner-vue
+  script:
+    - npm run build
+
+# 部署测试服务器
+deploy:
+  stage: deploy
+  only:
+   - dev
+  tags:
+    - runner-vue
+  script:
+    - "webpath=/www/web/coupon-vue/public_html"
+    - mkdir -p ${webpath}
+    - rsync -azv --delete dist/ ${webpath}
